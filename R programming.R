@@ -76,4 +76,42 @@ colmean<-function(x,removeNA=TRUE){
 
 colmean(airquality)
 
+# show loaded packages
+search()
+library(lme4)
+
+##### Lexical scoping
+
+make.power<-function(x){
+  pow<-function(n){
+    x^n
+  }
+  pow
+}
+
+cube<-make.power(3)
+square<-make.power(2)
+cube(3)
+square(2)
+# exploring function closure
+ls(environment(cube))
+get("x",environment(cube))
+ls(environment(square))
+get("x",environment(square))
+
+##### Coding standard
+# Always use text editor/text file (ASCII format)
+# indent your code
+# limit the lenght of function
+# limit the width of code
+
+##### Dates and Times in R ####
+
+x<-as.Date("2020-10-18")
+unclass(x)
+x<-Sys.time()
+p<-as.POSIXlt(x)
+
+y<-strptime("9 jan 2011 11:34:21","%d %b %Y %H:%M:%S")
+y-p
 
