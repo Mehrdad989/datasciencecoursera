@@ -15,9 +15,7 @@ corr<-function(directory,threshold=0){
       # append the result to the empty vector
       result<-append(result,correlation)
     }
-    else{
-      return(result)
-    }
+    
   }
   return(result)
 }
@@ -26,3 +24,10 @@ cr<-corr("specdata", 5000)
 head(cr)
 cr <- corr("specdata", 400)
 head(cr)
+
+cr <- corr("specdata")                
+cr <- sort(cr)   
+RNGversion("3.5.1")
+set.seed(868)                
+out <- round(cr[sample(length(cr), 5)], 4)
+print(out)

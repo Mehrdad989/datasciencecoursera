@@ -17,4 +17,4 @@ pollutantmean<-function(directory,pollutant,id=1:332){
 }
 
 pollutantmean(directory = "specdata",pollutant = "sulfate",id = 1:300)
-
+round(pollutantmean("specdata", "nitrate"),3)

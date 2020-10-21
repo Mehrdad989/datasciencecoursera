@@ -16,3 +16,12 @@ complete<-function(directory,id=1:332){
  }
 complete(directory = "specdata",id = 1:2)
 complete("specdata", c(2, 4, 8, 10, 12))
+
+cc <- complete("specdata", 54)
+print(cc$nobs)
+
+RNGversion("3.5.1")  
+set.seed(42)
+cc <- complete("specdata", 332:1)
+use <- sample(332, 10)
+print(cc[use, "nobs"])
