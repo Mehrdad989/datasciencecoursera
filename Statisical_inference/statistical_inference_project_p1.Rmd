@@ -1,0 +1,93 @@
+---
+author: "Mehrdad Arab"
+date: "November 30, 2020"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+```{r global_options, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.width=7, fig.height=4, warning=FALSE, message=FALSE)
+```
+
+# Statistical Inference Course Project (Part_1)
+
+## Overview
+This project will investigate the exponential distribution in R and compare it with the Central Limit Theorem. Given that lambda = 0.2 for all of the simulations. Part 1 of the project will investigate the distribution of averages of 40 exponentials over a thousand simulations.
+
+## Simulations
+
+```{r}
+# load neccesary libraries
+library(ggplot2)
+# Using pre-defined parameters
+lambda <- 0.2
+n <- 40
+sims <- 1:1000
+set.seed(123)
+
+# Simulate the population
+population <- data.frame(x=sapply(sims, function(x) {mean(rexp(n, lambda))}))
+
+# Plot the histogram
+hist.pop <- ggplot(population, aes(x=x)) + 
+  geom_histogram(aes(y=..count.., fill=..count..)) +
+  labs(title="Histogram for Averages of 40 Exponentials over 1000 Simulations", y="Frequency", x="Mean")
+hist.pop
+```
+
+
+## Sample Mean versus Theoretical Mean
+
+The expected mean $\mu$ of a exponential distribution of rate $\lambda$ is 
+
+$\mu= \frac{1}{\lambda}$ 
+
+```{r}
+theoretical.mean <- 1/lambda
+theoretical.mean
+```
+
+Let $\bar X$ be the average sample mean of 1000 simulations of 40 randomly sampled exponential distributions.
+
+```{r}
+# Tabulating the Sample Mean & Theoretical Mean
+sample.mean <- mean(population$x)
+cbind(sample.mean, theoretical.mean)
+```
+
+As you can see the expected mean and the avarage sample mean are very close 
+
+
+## Sample Variance versus Theoretical Variance
+
+
+
+```{r}
+sample.variance <- var(population$x)
+theoretical.variance <- ((1/lambda)^2)/n
+cbind(sample.variance, theoretical.variance)
+```
+
+As we can see below both Sample Variance and Theoretical Variance are very close.
+
+
+## Distribution
+
+
+```{r echo=FALSE}
+# Plotting Sample Mean & Varience vs Theoretical Mean & Varience
+gg <- ggplot(population, aes(x=x)) +
+  geom_histogram(aes(y=..density.., fill=..density..)) +
+  labs(title="Histogram of Averages of 40 Exponentials over 1000 Simulations", y="Density", x="Mean") + 
+  geom_density(colour="blue") +
+  geom_vline(xintercept=sample.mean, colour="blue", linetype="dashed") +
+  stat_function(fun=dnorm,args=list( mean=1/lambda, sd=sqrt(theoretical.variance)),color = "red") +
+  geom_vline(xintercept=theoretical.mean, colour="red", linetype="dashed") 
+gg
+```
+
+As we can see, the Sampled mean for 40 exponentials simulated 1000 times are very close to the Theoretical mean for a normal distribution.
+
